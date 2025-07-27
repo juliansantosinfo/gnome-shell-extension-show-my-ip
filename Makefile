@@ -9,5 +9,6 @@ install:
 	cp -r icons ~/.local/share/gnome-shell/extensions/${PACKAGE_NAME}
 
 package:
+	rm -rf dist
 	mkdir -p dist
 	zip -r dist/${PACKAGE_NAME}.zip extension.js LICENSE metadata.json README.md icons
