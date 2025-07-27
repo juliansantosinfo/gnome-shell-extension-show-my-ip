@@ -47,7 +47,7 @@ export default class ShowMyIpExtension extends Extension {
         
         this._updateIp();
 
-        this._timeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, () => {
+        this._timeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 30, () => {
             this._updateIp();
             return true;
         });
@@ -78,7 +78,7 @@ export default class ShowMyIpExtension extends Extension {
 
     _getLocalIp() {
         try {
-            let command = `/bin/sh -c "ip -4 addr show scope global up | awk '/inet/ {print $2}' | cut -d/ -f1 | head -n1"`;
+            let command = "bash -c \"ip route get 1.1.1.1 | awk '{for(i=1;i<=NF;i++) if ($i==\\\"src\\\") print $(i+1)}'\"";
 
             let [ok, stdout, stderr, status] = GLib.spawn_command_line_sync(command);
 
