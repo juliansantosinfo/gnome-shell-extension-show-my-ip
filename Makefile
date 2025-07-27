@@ -6,6 +6,8 @@ install:
 	cp LICENSE ~/.local/share/gnome-shell/extensions/${PACKAGE_NAME}
 	cp metadata.json ~/.local/share/gnome-shell/extensions/${PACKAGE_NAME}
 	cp README.md ~/.local/share/gnome-shell/extensions/${PACKAGE_NAME}
+	cp -r icons ~/.local/share/gnome-shell/extensions/${PACKAGE_NAME}
 
 package:
-	zip -r ${PACKAGE_NAME}.zip extension.js LICENSE metadata.json README.md
+	mkdir -p dist
+	zip -r dist/${PACKAGE_NAME}.zip extension.js LICENSE metadata.json README.md
