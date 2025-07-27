@@ -29,22 +29,47 @@ const IP_SERVICE_URL = 'https://ifconfig.me/ip';
 
 export default class ShowMyIpExtension extends Extension {
     enable() {
+        const box = new St.BoxLayout({ vertical: false });
         const buttonStyle = 0;
         const buttonInternalName = "Show My IP";
         const buttonIsInteractive = false;
 
-        this._label = new St.Label({
+        const lanIcon = new St.Icon({
+            icon_name: 'network-wired-symbolic',
+            style_class: 'system-status-icon',
+        });
+
+        const wanIcon = new St.Icon({
+            icon_name: 'network-workgroup-symbolic',
+            style_class: 'system-status-icon',
+        });
+
+        this._lanLabel = new St.Label({
+            text: "Loading...",
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        this._wanLabel = new St.Label({
             text: "Loading...",
             y_align: Clutter.ActorAlign.CENTER,
         });
 
-        this._indicator = new Button(buttonStyle, buttonInternalName, buttonIsInteractive);
-        this._indicator.add_child(this._label);
+        this._indicator = new Button(
+            buttonStyle, 
+            buttonInternalName, 
+            buttonIsInteractive
+        );
 
-        panel.addToStatusArea('show-my-ip', this._indicator);
+        box.add_child(lanIcon);
+        box.add_child(this._lanLabel);
+        box.add_child(wanIcon);
+        box.add_child(this._wanLabel);
+
+        this._indicator.add_child(box);
+
+        panel.addToStatusArea('show-my-ip', this._indicator, 0);
 
         this._httpSession = new Soup.Session();
-        
+
         this._updateIp();
 
         this._timeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 30, () => {
@@ -69,10 +94,11 @@ export default class ShowMyIpExtension extends Extension {
 
     _updateIp() {
         const ipLocal = this._getLocalIp();
+        this._lanLabel.set_text(ipLocal);
         this._getPublicIp().then(ipPublic => {
-            this._label.set_text(`LAN: ${ipLocal} | WAN: ${ipPublic}`);
+            this._wanLabel.set_text(ipPublic);
         }).catch(() => {
-            this._label.set_text(`LAN: ${ipLocal} | WAN: IP error`);
+            this._wanLabel.set_text('IP error');
         });
     }
 
@@ -96,7 +122,7 @@ export default class ShowMyIpExtension extends Extension {
     _getPublicIp() {
         return new Promise((resolve, reject) => {
             const message = Soup.Message.new('GET', IP_SERVICE_URL);
-            
+
             this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
                 try {
                     const bytes = session.send_and_read_finish(result);
