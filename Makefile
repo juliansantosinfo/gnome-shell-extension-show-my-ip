@@ -10,4 +10,4 @@ install:
 
 package:
 	mkdir -p dist
-	zip -r dist/${PACKAGE_NAME}.zip extension.js LICENSE metadata.json README.md
+	zip -r dist/${PACKAGE_NAME}.zip extension.js LICENSE metadata.json README.md icons
