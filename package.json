@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@girs/gnome-shell": "^48.0.2",
+    "husky": "^9.1.7"
+  },
+  "scripts": {
+    "prepare": "husky"
+  }
+}

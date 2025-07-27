@@ -1,0 +1,22 @@
+# Build artifacts and compiled files
+*.js.map
+*.gmo
+*.mo
+*.pot
+*.gschema.compiled
+build/
+dist/
+node_modules/
+*.tar.gz
+*.zip
+
+# Local configuration and editor-specific files
+.vscode/
+.idea/
+.DS_Store
+*~
+#*#
+
+# User-specific data and logs
+*.log
+*.bak
