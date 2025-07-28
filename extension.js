@@ -25,7 +25,7 @@ import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import { Button } from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
 const ByteArray = imports.byteArray;
-const IP_SERVICE_URL = 'https://ifconfig.me/ip';
+const IP_SERVICE_URL = 'https://api.ipify.org'
 
 export default class ShowMyIpExtension extends Extension {
     enable() {
