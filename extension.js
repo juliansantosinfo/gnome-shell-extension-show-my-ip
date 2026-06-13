@@ -87,11 +87,14 @@ export default class ShowMyIpExtension extends Extension {
             this._httpSession.abort();
             this._httpSession = null;
         }
+        this._wanLabel?.destroy();
+        this._wanLabel = null;
+        this._lanLabel?.destroy();
+        this._lanLabel = null;
+        this._box?.destroy();
+        this._box = null;
         this._indicator?.destroy();
         this._indicator = null;
-        this._box = null;
-        this._lanLabel = null;
-        this._wanLabel = null;
     }
 
     _updateIp() {
